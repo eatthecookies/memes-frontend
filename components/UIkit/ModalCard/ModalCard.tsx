@@ -1,6 +1,24 @@
+import { MouseEventHandler } from "react";
 import styles from "./ModalCard.module.css";
 import { RightOutlined, LeftOutlined, CloseOutlined } from "@ant-design/icons";
-
+type User = {
+  user_id: number;
+  first_name?: string;
+  last_name?: string;
+  username?: string;
+  photo?: string;
+};
+type TypeModalCard = {
+  children: string;
+  decrementOffset: MouseEventHandler<HTMLSpanElement>;
+  incrementOffset: MouseEventHandler<HTMLSpanElement>;
+  offset: number;
+  images: string[];
+  onClose: () => void;
+  user: User;
+  date: string;
+  text: string;
+};
 export function ModalCard({
   children,
   decrementOffset,
@@ -11,7 +29,7 @@ export function ModalCard({
   user,
   date,
   text,
-}) {
+}: TypeModalCard) {
   const hosting = import.meta.env.VITE_HOSTING;
   return (
     <div className={styles.modal_card} onClick={(e) => e.stopPropagation()}>

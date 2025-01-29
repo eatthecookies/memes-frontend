@@ -1,26 +1,41 @@
 import styles from "./Card.module.css";
-import { RightOutlined, LeftOutlined, UserOutlined } from "@ant-design/icons";
+import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import { ModalCard } from "../ModalCard/ModalCard";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "../../Modal/Modal";
 import { format_date } from "../../utils.tsx";
+type MessageType = {
+  message_id: number;
+  text: string;
+  timestamp: string;
+  user_id: number;
+  photos: string[];
+  grouped_id: null | number;
+};
+type User = {
+  user_id?: number;
+  first_name?: string;
+  last_name?: string;
+  username?: string;
+  photo?: string;
+};
 
-export function Card({ message }) {
+export function Card({ message }: { message: MessageType }) {
   const hosting = import.meta.env.VITE_HOSTING;
   const images = message.photos;
-  let [offset, setOffset] = useState(0);
-  let [isVisible, setVisibility] = useState(false);
-  let [user, setUser] = useState<string[]>([]);
 
-  // Используем useCallback, чтобы обработчик не создавался заново на каждом рендере
+  const [offset, setOffset] = useState(0);
+  const [isVisible, setVisibility] = useState(false);
+  const [user, setUser] = useState<User>();
 
-  let incrementOffset = () => {
+  const incrementOffset = () => {
     setOffset((offset) => offset + 1);
   };
-  let decrementOffset = () => {
+  const decrementOffset = () => {
     setOffset((offset) => offset - 1);
   };
-  let imageCards = images.map((image, index) => (
+
+  const imageCards = images.map((image: string, index: number) => (
     <div className={styles.imageContainer} key={index}>
       <div
         className={styles.background}
@@ -33,12 +48,14 @@ export function Card({ message }) {
     </div>
   ));
 
-  let modalImages = images.map((image) => `${hosting}/${image}`);
+  const modalImages: string[] = images.map(
+    (image: string) => `${hosting}/${image}`
+  );
 
-  const styleVar = {
+  const styleVar: React.CSSProperties = {
     "--number-of-images": `${images.length}`,
     "--offset": `${offset}`,
-  };
+  } as React.CSSProperties;
 
   useEffect(() => {
     async function fetchUser() {
@@ -55,12 +72,12 @@ export function Card({ message }) {
     }
   }, []);
 
-  let formattedDate = format_date(message.timestamp);
+  const formattedDate = format_date(message.timestamp);
 
   return (
     <div className={styles.card}>
       <div className={styles.card_info}>
-        {user.photo && (
+        {user && (
           <img
             className={styles.avatar}
             src={`${hosting}/${user.photo}`}
@@ -109,7 +126,13 @@ export function Card({ message }) {
               offset={offset}
               images={images}
               onClose={() => setVisibility(false)}
-              user={user}
+              user={{
+                user_id: user?.user_id ?? 0, // Дефолтное значение, если user undefined
+                first_name: user?.first_name ?? "",
+                last_name: user?.last_name ?? "",
+                username: user?.username ?? "",
+                photo: user?.photo ?? "",
+              }}
               date={formattedDate}
               text={message.text}
             >

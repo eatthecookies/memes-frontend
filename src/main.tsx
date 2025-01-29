@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
-import "@fontsource-variable/inter";
-import "@fontsource/roboto";
+import "@fontsource-variable/inter/index.css";
+import "@fontsource/roboto/index.css";
 import "./index.css";
 import App from "./App.tsx";
 

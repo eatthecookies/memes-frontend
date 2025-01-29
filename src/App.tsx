@@ -3,9 +3,16 @@ import styles from "./index.module.css";
 import { Footer } from "../components/Footer/Footer";
 import { Card } from "../components/UIkit/Card/Card";
 import { useEffect, useState } from "react";
-
+type MessageType = {
+  message_id: number;
+  text: string;
+  timestamp: string;
+  user_id: number;
+  photos: string[];
+  grouped_id: null | number;
+};
 export default function App() {
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<MessageType[]>([]);
   const [page, setPage] = useState<number>(0);
   const [messagesNumber, setMessagesNumber] = useState<number>(0);
   const [fetching, setFetching] = useState<boolean>(false);
@@ -21,42 +28,41 @@ export default function App() {
       );
       const data = await response.json();
 
-      // Обновляем количество сообщений и добавляем новые
       setMessagesNumber(data["total_count"]);
       setMessages((prevMessages) => [...prevMessages, ...data["messages"]]);
     } catch (error) {
       console.error("Error fetching messages:", error);
     } finally {
-      setFetching(false); // Завершаем загрузку
+      setFetching(false);
     }
   };
 
-  // useEffect для загрузки сообщений при изменении страницы
   useEffect(() => {
     if (!fetching) {
-      fetchMessages(page); // Загружаем сообщения только если не в процессе загрузки
+      fetchMessages(page);
     }
-  }, [page]); // зависимость от page, каждый раз при изменении страницы будем загружать новые сообщения
+  }, [page]);
 
   useEffect(() => {
-    const scrollHandler = (e) => {
+    const scrollHandler = (e: Event) => {
+      const target = e.target as Document;
+      const { scrollTop, scrollHeight } = target.documentElement;
+      const windowHeight = window.innerHeight;
       if (
-        e.target.documentElement.scrollHeight -
-          (e.target.documentElement.scrollTop + window.innerHeight) <
-          100 &&
+        scrollHeight - (scrollTop + windowHeight) < 100 &&
         messages.length < messagesNumber
       ) {
-        setPage((prevPage) => prevPage + 1); // Увеличиваем страницу при достижении конца страницы
+        setPage((prevPage) => prevPage + 1);
       }
     };
 
     document.addEventListener("scroll", scrollHandler);
     return () => {
-      document.removeEventListener("scroll", scrollHandler); // Очистка обработчика
+      document.removeEventListener("scroll", scrollHandler);
     };
-  }, [messages.length, messagesNumber]); // Эффект отслеживает изменение количества сообщений
+  }, [messages.length, messagesNumber]);
 
-  const cards = messages.map((message, index) => (
+  const cards = messages.map((message: MessageType, index: number) => (
     <Card key={index} message={message}></Card>
   ));
 

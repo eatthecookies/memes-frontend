@@ -1,7 +1,12 @@
-import { useEffect } from "react";
+import { ReactNode } from "react";
 import ReactDOM from "react-dom";
 import styles from "./Modal.module.css";
-export function Modal({ children, isVisible, onClose }) {
+type ModalType = {
+  children: ReactNode;
+  isVisible: boolean;
+  onClose: (value: boolean) => void;
+};
+export function Modal({ children, isVisible, onClose }: ModalType) {
   if (!isVisible) return null;
 
   return ReactDOM.createPortal(

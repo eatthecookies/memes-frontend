@@ -16,7 +16,7 @@ export function format_date(input_timestamp: string): string {
   ];
 
   // Функция для добавления ведущего нуля
-  const pad = (num) => num.toString().padStart(2, "0");
+  const pad = (num: number) => num.toString().padStart(2, "0");
 
   // Извлекаем компоненты даты
   const day = pad(date.getDate());
