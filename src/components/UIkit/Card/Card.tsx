@@ -4,6 +4,7 @@ import { ModalCard } from "../ModalCard/ModalCard.tsx";
 import { useEffect, useState } from "react";
 import { Modal } from "../../Modal/Modal.tsx";
 import { format_date } from "../../utils.tsx";
+
 type MessageType = {
   message_id: number;
   text: string;
