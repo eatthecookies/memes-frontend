@@ -1,5 +1,6 @@
 import styles from "./Card.module.css";
-import { RightOutlined, LeftOutlined } from "@ant-design/icons";
+import RightOutlined from "@ant-design/icons/RightOutlined";
+import LeftOutlined from "@ant-design/icons/LeftOutlined";
 import { ModalCard } from "../ModalCard/ModalCard.tsx";
 import { useEffect, useState } from "react";
 import { Modal } from "../../Modal/Modal.tsx";
@@ -101,7 +102,7 @@ export function Card({ message }: { message: MessageType }) {
       >
         {offset > 0 && (
           <LeftOutlined
-            onClick={(e) => {
+            onClick={(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
               e.stopPropagation();
               decrementOffset();
             }}
@@ -110,7 +111,7 @@ export function Card({ message }: { message: MessageType }) {
         )}
         {offset < images.length - 1 && (
           <RightOutlined
-            onClick={(e) => {
+            onClick={(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
               e.stopPropagation();
               incrementOffset();
             }}
