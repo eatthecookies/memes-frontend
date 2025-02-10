@@ -1,0 +1,10 @@
+.navigation {
+  display: flex;
+  gap: 10px;
+  margin-right: auto;
+}
+
+.navigationItems {
+  list-style: none;
+  color: inherit;
+}
