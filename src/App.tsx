@@ -1,7 +1,7 @@
-import { Header } from "../components/Header/Header";
+import { Header } from "./components/Header/Header";
 import styles from "./index.module.css";
-import { Footer } from "../components/Footer/Footer";
-import { Card } from "../components/UIkit/Card/Card";
+import { Footer } from "./components/Footer/Footer";
+import { Card } from "./components/UIkit/Card/Card";
 import { useEffect, useState } from "react";
 type MessageType = {
   message_id: number;

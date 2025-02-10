@@ -4,7 +4,7 @@
   width: 100%;
   margin: 10px auto;
   height: 700px;
-  background-color: var(--card-color);
+  background-color: white;
   border-radius: 13px;
   display: flex;
   flex-direction: column;

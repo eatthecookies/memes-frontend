@@ -1,10 +1,9 @@
 import styles from "./Card.module.css";
 import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import { ModalCard } from "../ModalCard/ModalCard.tsx";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "../../Modal/Modal.tsx";
 import { format_date } from "../../utils.tsx";
-import { ThemeContext } from "../../../ThemeProvider.tsx";
 type MessageType = {
   message_id: number;
   text: string;
@@ -36,11 +35,6 @@ export function Card({ message }: { message: MessageType }) {
     setOffset((offset) => offset - 1);
   };
 
-  const { theme, _ } = useContext(ThemeContext);
-  const style = {
-    "--card-color": `${theme == "light" ? "white " : "black"}`,
-    "--text-color": `${theme == "light" ? "black" : "white"}`,
-  };
   const imageCards = images.map((image: string, index: number) => (
     <div className={styles.imageContainer} key={index}>
       <div
@@ -81,7 +75,7 @@ export function Card({ message }: { message: MessageType }) {
   const formattedDate = format_date(message.timestamp);
 
   return (
-    <div className={styles.card} style={style}>
+    <div className={styles.card}>
       <div className={styles.card_info}>
         {user && (
           <img
